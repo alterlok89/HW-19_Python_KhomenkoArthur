@@ -357,3 +357,208 @@ if __name__ == '__main__':
     btn_exit.grid(row=7, column=2, padx=10, pady=5)
 
     root.mainloop()
+
+
+# Задание 3
+
+class Account:
+    __account_list = list()
+    __person_dic = dict
+    __person = str()
+    __login = str()
+    __password = str()
+
+    def add_account(self, person: str, login: str, password: str):
+        self.__person = person
+        self.__login = login
+        self.__password = password
+        if self.__person == '' or self.__person is None:
+            messagebox.showinfo('Задание 3', 'Не введено имя!')
+            exit()
+        elif self.__login == '' or self.__login is None:
+            messagebox.showinfo('Задание 3', 'Не введен логин!')
+            exit()
+        elif self.__password is None or len(self.__password) < 6:
+            messagebox.showinfo('Задание 3', 'Не введен пароль!'
+                                             ' Пароль должен состоять из более 6 символов!')
+            exit()
+        self.__account_dic = {
+            self.__person: {
+               'login': self.__login,
+               'password': self.__password,
+            }
+        }
+        self.__account_list.append(self.__account_dic)
+        return self.__account_list
+
+    def find_account(self, find_person: str):
+        for result, dic_ in enumerate(self.__account_list):
+            if dic_.get(find_person, ''):
+                return self.__account_list[result]
+                break
+            else:
+                messagebox.showinfo('Задание 3', 'Пользователь не найден!')
+                return None
+
+
+    def delete_account(self, find_person: str):
+        for result, dic_ in enumerate(self.__account_list):
+            if dic_.get(find_person, ''):
+                return self.__account_list.pop(result)
+                break
+            else:
+                messagebox.showinfo('Задание 3', 'Пользователь не найден!')
+                return None
+
+    def show_account_list(self):
+        return self.__account_list
+
+    def change_login(self, find_person: str, new_login: str):
+        for result, dic_ in enumerate(self.__account_list):
+            if dic_.get(find_person, ''):
+                break
+        else:
+            messagebox.showinfo('Задание 3', 'Пользователь не найден!')
+        if new_login == '' or new_login is None:
+            messagebox.showinfo('Задание 3', 'Не введен логин!')
+            exit()
+        self.__account_list[result][find_person]['login'] = new_login
+        return self.__account_list[result]
+
+    def change_password(self, find_person: str, new_password: str):
+        for result, dic_ in enumerate(self.__account_list):
+            if dic_.get(find_person, ''):
+                break
+        else:
+            messagebox.showinfo('Задание 3', 'Пользователь не найден!')
+        if new_password is None or len(new_password) < 6:
+            messagebox.showinfo('Задание 3', 'Не введен пароль!'
+                                             ' Пароль должен состоять из более 6 символов!')
+            exit()
+        self.__account_list[result][find_person]['password'] = new_password
+        return self.__account_list[result]
+
+
+# acc = Account()
+# print(acc.add_account('Антон', '3', '123456'))
+# print(acc.show_account_list())
+# print(acc.add_account('FF', 'ANt', '12asa1'))
+# print(acc.show_account_list())
+# print(acc.add_account('FHY', 'ALter', 'asdfghj'))
+# print(acc.show_account_list())
+# acc.change_login('FF', 'MAMA')
+# print(acc.show_account_list())
+# acc.change_password('Антон', 'QWERtyu')
+# print(acc.show_account_list())
+# print()
+# print(acc.find_account('sdfs'))
+# print(acc.find_account('Антон'))
+
+if __name__ == '__main__':
+
+    acc = Account()
+    # (начало работы)
+    def click_add_user():
+        return acc.add_account(name_entry.get(), login_entry.get(), password_entry.get())
+
+
+    # функция выводит сообщение со списком пользователей
+    def click_show():
+        messagebox.showinfo('Задание 3.', f'Список пользователей: {acc.show_account_list()}')
+
+
+    # функция кнопки поиска пользователя
+    def click_find():
+        name = acc.find_account(name_entry.get())
+        if name == None:
+            messagebox.showinfo('Задание 3.', f'Пользователь не найден!')
+        else:
+            messagebox.showinfo('Задание 3.', f'Пользователь найден {name}!')
+
+
+    # функция кнопки удаления пользователя
+    def click_delete():
+        name = acc.delete_account(name_entry.get())
+        if name == None:
+            messagebox.showinfo('Задание 3.', f'Пользователь не найден!')
+        else:
+            messagebox.showinfo('Задание 3.', f'Пользователь {name} удален!')
+
+
+    # функция кнопки изменения логина
+    def click_change_login():
+        new_login = acc.change_login(name_entry.get(), login_entry.get())
+        return messagebox.showinfo('Задание 3.', f'Новые данные пользователя: {new_login}')
+
+
+    # функция кнопки изменения логина
+    def click_change_password():
+        new_password = acc.change_password(name_entry.get(), password_entry.get())
+        return messagebox.showinfo('Задание 3.', f'Новые данные пользователя: {new_password}')
+
+
+    # функция завершения работы
+    def click_exit():
+        messagebox.showinfo('Задание 3.', 'ЗАВЕРШЕНИЕ РАБОТЫ')
+        exit(-1)
+
+
+    # очистка полей ввода
+    def clear():
+        name_entry.delete(0, END)
+        login_entry.delete(0, END)
+        password_entry.delete(0, END)
+
+
+    root = Tk()
+    root.title('Задание 3. Очередь с приоритетом')
+    root.geometry('800x550')
+
+    name_label = Label(text='Имя пользователя ', width=30, font=5)
+    login_label = Label(text='Login пользователя ', width=30, font=5)
+    password_label = Label(text='Password пользователя', width=30, font=5)
+
+    name_label.grid(row=0, column=0)
+    login_label.grid(row=1, column=0)
+    password_label.grid(row=2, column=0)
+
+    name_entry = Entry()
+    login_entry = Entry()
+    password_entry = Entry()
+
+    name_entry.grid(row=0,column=1, padx=20, pady=5)
+    login_entry.grid(row=1,column=1, padx=20, pady=5)
+    password_entry.grid(row=2,column=1, padx=20, pady=5)
+
+    # вставка начальных данных
+    name_entry.insert(0, '0')
+    login_entry.insert(0, '0')
+    password_entry.insert(0, 0)
+
+    clear_button = Button(text='Очистить данные', background="#555", foreground="#ccc",
+                 padx="20", pady="8", width="25", font="5", command=clear)
+    show_button = Button(text='Показать список пользователей', background="#555", foreground="#ccc",
+                 padx="20", pady="8", width="25", font="5", command=click_show)
+
+    btn_add_user = Button(text="Добавить\nВвести имя пользователя / login / password", background="#555", foreground="#ccc",
+                 padx="20", pady="8", width="30", font="5", command=click_add_user)
+    btn_find_user = Button(text="Найти пользователя\nВвести имя пользователя", background="#555", foreground="#ccc",
+                 padx="20", pady="8", width="30", font="5", command=click_find)
+    btn_del_user = Button(text="Удалить пользователя\nВвести имя пользователя", background="#555", foreground="#ccc",
+                 padx="20", pady="8", width="30", font="5", command=click_delete)
+    btn_change_login = Button(text="Изменить login\nВвести имя пользователя / login", background="#555", foreground="#ccc",
+                 padx="20", pady="8", width="30", font="5", command=click_change_login)
+    btn_change_password = Button(text="Изменить password\nВвести имя пользователя / password", background="#555", foreground="#ccc",
+                 padx="20", pady="8", width="30", font="5", command=click_change_password)
+    btn_exit = Button(text="Выход из программы", background="#555", foreground="#ccc",
+                 padx="20", pady="8", width="25", font="5", command=click_exit)
+    btn_add_user.grid(row=4, column=0, padx=10, pady=5)
+    btn_find_user.grid(row=5, column=0, padx=10, pady=5)
+    btn_del_user.grid(row=6, column=0, padx=10, pady=5)
+    btn_change_login.grid(row=7, column=0, padx=10, pady=5)
+    btn_change_password.grid(row=8, column=0, padx=10, pady=5)
+    clear_button.grid(row=4, column=2, padx=10, pady=5)
+    show_button.grid(row=5, column=2, padx=10, pady=5)
+    btn_exit.grid(row=9, column=2, padx=10, pady=5)
+
+    root.mainloop()
